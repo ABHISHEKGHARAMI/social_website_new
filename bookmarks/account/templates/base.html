@@ -16,6 +16,30 @@
 <body>
     <div id="header">
        <span class="logo">Bookmarks</span>
+       {% if request.user.is_authenticated %}
+          <ul class="menu">
+            <li {% if section == 'dashboard' %}class="selected"{% endif %}>
+                <a href="{% url 'login' %}">DashBoard</a>
+            </li>
+            <li {% if section == 'images' %}class="selected"{% endif %}>
+                <a href="#">Images</a>
+            </li>
+            <li {% if section == 'peoples' %}class="selected"{% endif %}>
+                <a href="#">Peoples</a>
+            </li>
+          </ul>
+       {% endif %}
+       <span class="user">
+         {% if request.user.is_authenticated %}
+           hello {{ request.user.first_name|default:request.user.username }}
+           <form action="{% url 'logout' %}" method='post'>
+            <input type="submit" value="logout">
+            {% csrf_token %}
+           </form>
+          {% else %}
+           <a href="{% url 'login' %}">Login</a>
+         {% endif %}
+       </span>
     </div>
     <div id="content">
       {% block content %}
