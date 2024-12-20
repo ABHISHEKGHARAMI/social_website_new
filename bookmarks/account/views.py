@@ -24,7 +24,7 @@ def user_login(request):
             # if the user is authenticate correctly then the login the user
             if user is not None:
                 # check that user is activate or not
-                if user.is_active():
+                if user.is_active:
                     return HttpResponse('authenticated correctly.')
                 else:
                     return HttpResponse("user is un active")
