@@ -3,6 +3,7 @@ from django.contrib.auth import login,logout,authenticate
 from django.http import HttpResponse
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LogoutView
 # Create your views here.
 
 
@@ -42,6 +43,8 @@ def user_login(request):
         }
     )
     
+# building the custom logout view for the logout
+
 # dash board for the user
 @login_required
 def dashboard(request):
@@ -52,3 +55,8 @@ def dashboard(request):
             'section' : 'dashboard'
         }
     )
+
+
+def logout_page(request):
+    return render(request,
+                  'registration/logout.html')
