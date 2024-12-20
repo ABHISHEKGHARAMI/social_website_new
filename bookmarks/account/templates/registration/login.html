@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Login 
+{% endblock title %}
+
+{% block content %}
+    <h1>Login form</h1>
+    {% if form.errors %}
+      <p>
+        User Credential does not match 
+        please use the correct Credential
+      </p>
+    {% else %}
+      <p>
+        Use the following form for login to the site.
+
+      </p>
+    {% endif %}
+
+    <div class="login-form">
+        <form action={% url "login" %} method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="next" value="{{ next }}">
+            <input type="submit" value="Log in">
+        </form>
+    </div>
+{% endblock content %}
