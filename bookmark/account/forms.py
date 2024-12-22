@@ -12,7 +12,7 @@ class UserRegistrationForm(forms.ModelForm):
     password2 = forms.CharField(label='Repeat password',widget=forms.PasswordInput)
     
     class Meta:
-        model = get_user_model
+        model = get_user_model()
         fields = ['username','first_name','email']
         
     def clean_password2(self):
