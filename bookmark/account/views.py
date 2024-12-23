@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate,login
 from .forms import LoginForm , UserRegistrationForm , UserEditForm , ProfileEditForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Profile
 
 
 
@@ -52,7 +54,7 @@ def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
-            # create new user
+            
             new_user = user_form.save(commit=False)
             
             # set the password
@@ -61,6 +63,9 @@ def register(request):
             )
             # save the user
             new_user.save()
+            # create new user
+            Profile.objects.create(user=new_user)
+            messages.success(request,f"Welcome {new_user.username}")
             return render(
                 request,
                 'account/register_done.html',
@@ -71,6 +76,7 @@ def register(request):
         
     else:
         user_form = UserRegistrationForm()
+        messages.error(request,"please try again!!")
         
     return render(
         request,
@@ -90,13 +96,18 @@ def edit(request):
         )
         
         profile_form= ProfileEditForm(
-            instance = request.user,
+            instance = request.user.profile,
             data = request.POST,
             files = request.FILES
         )
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            # profile create of the user
+            
+            messages.success(request,"Profile edited successfully")
+        else:
+            messages.error(request,"Profile can not update")
     else:
         user_form= UserEditForm(instance=request.user)
         profile_form= ProfileEditForm(instance=request.user.profile)
