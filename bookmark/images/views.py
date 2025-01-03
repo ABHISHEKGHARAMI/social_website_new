@@ -17,7 +17,7 @@ def image_create(request):
             #  assign the user
             new_image.user = request.user
             new_image.save()
-            messages.SUCCESS(request,'Images created successfully')
+            messages.success(request,'Image Created Successfully.')
             return redirect(new_image.get_absolute_url())
     else:
         form = ImageCreateForm(data=request.GET)
@@ -26,6 +26,7 @@ def image_create(request):
         request,
         'images/image/create.html',
         {
+            'section':'images',
             'form':form
         }
     )

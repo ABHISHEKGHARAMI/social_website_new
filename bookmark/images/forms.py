@@ -7,7 +7,7 @@ from django.core.files.base import ContentFile
 
 
 # the form
-class ImageCreateForm(forms.Form):
+class ImageCreateForm(forms.ModelForm):
     class Meta:
         model = Image
         fields = ['title','url','description']
@@ -28,7 +28,7 @@ class ImageCreateForm(forms.Form):
     
     
     # override the save method for the images 
-    def save(self,force_insert=False,force_update=False,commit=False):
+    def save(self,force_insert=False,force_update=False,commit=True):
         image = super().save(commit=False)
         image_url = self.cleaned_data['url']
         name = slugify(image.title)
