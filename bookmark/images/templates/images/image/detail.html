@@ -9,11 +9,11 @@
     <a href="{{ image.image.url }}">
       <img src="{% thumbnail image.image 300x0 %}" class="image-preview">
     </a>
-    {% with total_likes=image.users_like.count %}
+    {% with total_likes=image.users_like.count users_like=image.users_like.all %}
         <div class="image-info">
             <div>
                 <span class="count">
-                {{ total_likes }} like{{ total_likes|pluralize }}
+                    <span class="total">{{ total_likes }}</span> like{{ total_likes|pluralize }}
                 </span>
             </div>
             {{ image.description|linebreaks }}
