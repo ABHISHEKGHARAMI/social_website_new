@@ -164,7 +164,7 @@ def user_follow(request):
             if action == 'follow':
                 Contact.objects.get_or_create(
                     user_from=request.user,
-                    to = user
+                    user_to = user
                 )
             else:
                 Contact.objects.delete(
