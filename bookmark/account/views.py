@@ -167,10 +167,10 @@ def user_follow(request):
                     user_to = user
                 )
             else:
-                Contact.objects.delete(
-                    user_from=request.user,
-                    user_to=user
-                )
+                Contact.objects.filter(
+                    user_from = request.user,
+                    user_to = user
+                ).delete()
             return JsonResponse({'status':'ok'})
         except User.DoesNotExist:
             return JsonResponse({'status':'error'})
