@@ -42,6 +42,7 @@ class Contact(models.Model):
         indexes = [
             models.Index(fields=['-created'])
         ]
+        ordering = ['-created']
     
     def __str__(self):
         return f'{self.user_from} follows {self.user_to}'
@@ -54,7 +55,7 @@ user_model.add_to_class(
     models.ManyToManyField(
         'self',
         through=Contact,
-        related_name='follower',
+        related_name='followers',
         symmetrical=False
     )
 )
