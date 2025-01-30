@@ -133,8 +133,7 @@ def image_ranking(request):
     # get image ranking dictionary
     image_ranking = r.zrange(
         'image_ranking', 0, -1,
-        desc=True
-    )[:10]
+        desc=True)[:10]
     image_ranking_ids = [int(id) for id in image_ranking]
     # get most viewed images
     most_viewed = list(
