@@ -24,3 +24,10 @@ This is a Django-based web application that allows users to bookmark images and 
 ```bash
 git clone https://github.com/ABHISHEKGHARAMI/social_website_new.git
 cd social_website_new/bookmark
+```
+
+### 2.  Install Dependencies
+Have to install all the required dependency for the the platform to learn
+```bash
+pip install -r requirements.txt
+```
