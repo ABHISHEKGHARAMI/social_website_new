@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Profile, Contact
 from django.views.decorators.http import require_POST
+from actions.utils import create_action
+from actions.models import Actions
 
 
 
@@ -42,11 +44,22 @@ def user_login(request):
 # dashboard view
 @login_required
 def dashboard(request):
+    # exclude  current user from user activity and see other activity
+    actions = Actions.objects.exclude(user=request.user)
+    following_ids = request.user.following.values_list(
+        'id',flat=True
+    )
+    if following_ids:
+        #if user follow other then only retrive the user follows
+        actions = actions.filter(user_id__in=following_ids)
+    actions = actions.select_related(
+        'user','user__profile').prefetch_related('target')[:10]
     return render(
         request,
         'account/dashboard.html',
         {
-            'section':'dashboard'
+            'section':'dashboard',
+            'actions':actions
         }
     )
     
@@ -66,6 +79,7 @@ def register(request):
             new_user.save()
             # create new user
             Profile.objects.create(user=new_user)
+            create_action(new_user,'has created account')
             messages.success(request,f"Welcome {new_user.username}")
             return render(
                 request,
@@ -166,6 +180,7 @@ def user_follow(request):
                     user_from=request.user,
                     user_to = user
                 )
+                create_action(request.user,'is following',user)
             else:
                 Contact.objects.filter(
                     user_from = request.user,

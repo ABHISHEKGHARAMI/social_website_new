@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from .models import Image
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
+from actions.utils import create_action
 # Create your views here.
 
 
@@ -22,6 +23,7 @@ def image_create(request):
             #  assign the user
             new_image.user = request.user
             new_image.save()
+            create_action(request.user,'Bookmark Image',new_image)
             messages.success(request,'Image Created Successfully.')
             return redirect(new_image.get_absolute_url())
     else:
@@ -62,6 +64,7 @@ def image_like(request):
             image = Image.objects.get(id=image_id)
             if action == 'like':
                 image.users_like.add(request.user)
+                create_action(request.user,'likes',image)
             else:
                 image.users_like.remove(request.user)
                 
