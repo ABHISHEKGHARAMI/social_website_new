@@ -16,3 +16,11 @@ This is a Django-based web application that allows users to bookmark images and 
 - Building the follow system for the different users
 - Creating the activity stream for the user
 - Using the redis for the storing and caching it faster
+
+
+## Installation & Setup
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/ABHISHEKGHARAMI/social_website_new.git
+cd social_website_new/bookmark
