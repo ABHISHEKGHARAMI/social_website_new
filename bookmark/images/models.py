@@ -16,6 +16,7 @@ class Image(models.Model):
     image = models.ImageField(upload_to='images/%Y/%m/%d/')
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+    total_likes = models.PositiveIntegerField(default=0)
     
     # creat the many to many fields for the user_like
     users_like = models.ManyToManyField(
@@ -26,7 +27,8 @@ class Image(models.Model):
     
     class Meta:
         indexes = [
-            models.Index(fields=['-created'])
+            models.Index(fields=['-created']),
+            models.Index(fields=['-total_likes'])
         ]
         ordering = ['-created']
     
